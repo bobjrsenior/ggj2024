@@ -1,14 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5v5lp7qt27ap"]
+[gd_scene load_steps=8 format=3 uid="uid://c5v5lp7qt27ap"]
 
 [ext_resource type="Script" path="res://scripts/RunnerGame/ObjectSpawner.gd" id="1_qlpge"]
 [ext_resource type="PackedScene" uid="uid://8xg8c2kenxpg" path="res://scenes/RunnerGame/Floor.tscn" id="2_3gjxr"]
 [ext_resource type="PackedScene" uid="uid://rehec6ssp1bi" path="res://scenes/RunnerGame/FloorSpikeNew.tscn" id="3_2evcl"]
 [ext_resource type="PackedScene" uid="uid://d032vrpf1ornq" path="res://scenes/RunnerGame/TallSpikeNew.tscn" id="4_f026j"]
 [ext_resource type="PackedScene" uid="uid://c6u7n3k13aiwd" path="res://scenes/RunnerGame/Player.tscn" id="5_cno8f"]
+[ext_resource type="Texture2D" uid="uid://cj1fknauabt1u" path="res://art/Background.png" id="6_yviii"]
+[ext_resource type="AudioStream" uid="uid://dbbrq2o0nrgx1" path="res://audio/music.ogg" id="7_f2xvc"]
 
 [node name="MainScene" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("timer_text", "start_text")]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+texture = ExtResource("6_yviii")
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("timer_text", "start_text", "lose_text", "shared_audio_player")]
 script = ExtResource("1_qlpge")
 floor_fab = ExtResource("2_3gjxr")
 floor_spike_fab = ExtResource("3_2evcl")
@@ -16,6 +22,8 @@ tall_spike_fab = ExtResource("4_f026j")
 timer_text = NodePath("../Control/TimerText")
 player_fab = ExtResource("5_cno8f")
 start_text = NodePath("../Control/StartText")
+lose_text = NodePath("../Control/LoseText")
+shared_audio_player = NodePath("../AudioListener2D/AudioStreamPlayer2D2")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -48,5 +56,30 @@ offset_right = 300.0
 offset_bottom = 25.0
 grow_horizontal = 2
 theme_override_font_sizes/normal_font_size = 42
-text = "Press 'T' (Disgusted) to start"
 scroll_active = false
+
+[node name="LoseText" type="RichTextLabel" parent="Control"]
+visible = false
+clip_contents = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -350.0
+offset_top = -25.0
+offset_right = 350.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 42
+scroll_active = false
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+current = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AudioListener2D"]
+stream = ExtResource("7_f2xvc")
+volume_db = 10.947
+autoplay = true
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="AudioListener2D"]
+bus = &"sfx"

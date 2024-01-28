@@ -10,5 +10,6 @@ var speed_ratio_increase_per_second = speed_ratio_increase_per_second_default
 var time_elapsed_real = time_elapsed_real_default
 var time_elapsed_virtual = time_elapsed_virtual_default
 var game_started = false
+var game_lost = false
 
-var speed_ratio_to_audio_speed = 4
+@export var shared_audio_player: AudioStreamPlayer2D

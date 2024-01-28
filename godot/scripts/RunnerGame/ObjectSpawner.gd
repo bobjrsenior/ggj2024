@@ -11,22 +11,31 @@ var timer_for_spawn_floor_time = 0.0
 @export var timer_text: RichTextLabel
 @export var player_fab: PackedScene
 @export var start_text: RichTextLabel
+@export var lose_text: RichTextLabel
+@export var shared_audio_player: AudioStreamPlayer2D
 var spawned_player = false
 var last_floor: Node
 
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GlobalVariables.game_lost = false
+	GlobalVariables.game_started = false
 	GlobalVariables.speed_ratio = GlobalVariables.speed_ratio_default
 	GlobalVariables.speed_ratio_increase_per_second = GlobalVariables.speed_ratio_increase_per_second_default
 	GlobalVariables.time_elapsed_real = GlobalVariables.time_elapsed_real_default
 	GlobalVariables.time_elapsed_virtual = GlobalVariables.time_elapsed_virtual_default
-	set_timer_text()
+	GlobalVariables.shared_audio_player = shared_audio_player
+	start_text.text = "Press 'T' (Disgusted) to start"
+	timer_text.text = ""
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if GlobalVariables.game_started:
+	if GlobalVariables.game_lost:
+		lose_text.visible = true
+		lose_text.text = "You Lose, 'T' (Disgusted) to reload"
+	elif GlobalVariables.game_started:
 		GlobalVariables.time_elapsed_real += delta
 		GlobalVariables.time_elapsed_virtual += delta * GlobalVariables.speed_ratio
 		timer_for_spawn_floor_time += delta * GlobalVariables.speed_ratio
@@ -83,13 +92,16 @@ func spawn_obstacle():
 func set_timer_text():
 	var format_string = "%02d:%0.4f"
 	var int_time = int(GlobalVariables.time_elapsed_real)
-	timer_text.text = format_string % [int_time / 60, GlobalVariables.time_elapsed_real - (int_time / 60)]
+	timer_text.text = format_string % [int_time / 60, GlobalVariables.time_elapsed_real - (60 * (int_time / 60))]
 	
 func _input(event):
-	if !GlobalVariables.game_started:
-		if event.is_action_pressed("start"):
-			if start_text.visible:
-				start_text.visible = false
-				GlobalVariables.game_started = true
-			else:
-				get_tree().reload_current_scene()
+	if event.is_action_pressed("start"):
+		if GlobalVariables.game_lost:
+			lose_text.text = ""
+			lose_text.visible = false
+			get_tree().reload_current_scene()
+		elif !GlobalVariables.game_started:
+			start_text.visible = false
+			start_text.text = ""
+			GlobalVariables.game_started = true
+				

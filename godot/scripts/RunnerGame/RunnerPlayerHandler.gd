@@ -12,7 +12,7 @@ var degrees_to_rads = 0.01745329
 @export var sad_sprite: Resource
 @export var happy_audio: AudioStreamOggVorbis
 @export var sad_audio: AudioStreamOggVorbis
-@export var audio_player: AudioStreamPlayer2D
+var audio_player: AudioStreamPlayer2D
 var audio_bus_index = AudioServer.get_bus_index("sfx")
 var pitch_effect = AudioServer.get_bus_effect(audio_bus_index, 0)
 var default_y_value: float
@@ -26,6 +26,7 @@ var mid_action = false
 func _ready():
 	default_y_value = position.y
 	character_sprite.texture = neutral_sprite
+	audio_player = GlobalVariables.shared_audio_player
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -81,4 +82,5 @@ func _input(event):
 func _on_area_2d_area_entered(area):
 	print("You Lose")
 	GlobalVariables.game_started = false
+	GlobalVariables.game_lost = true
 	queue_free()
