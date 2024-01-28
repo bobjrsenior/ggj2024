@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  Hello world
+  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript" charset="utf-8">
+    var socket = io("ws://127.0.0.1:5000")
+
+
+    // Detect if a key is pressed and log it
+    document.addEventListener('keydown', (event) => {
+      const keyName = event.key;
+      console.log('keydown event\n\n' + 'key: ' + keyName);
+    });
+
+    socket.on('connect', function () {
+      for (let i = 0; i < 200; i++) {
+        socket.emit('control', { data: 'a' });
+      }
+    });
+
+  </script>
+</body>
+
+</html>

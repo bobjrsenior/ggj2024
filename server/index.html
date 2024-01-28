@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  Hello world
+  <video id="video" width="720" height="560" autoplay muted></video>
+  <canvas id="canvas" width="720" height="560"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"></script>
+  <script src="face-api.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    var socket = io("ws://127.0.0.1:5000")
+    // http://localhost:61809/
+    // var socket = io("ws://10.151.179.66:5000/")
+
+
+    // // Detect if a key is pressed and log it
+    // document.addEventListener('keydown', (event) => {
+    //   const keyName = event.key;
+    //   console.log('keydown event\n\n' + 'key: ' + keyName);
+    // });
+
+    // const detectionsWithExpressions = await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceExpressions()
+
+
+    socket.on('connect', () => {
+      console.log('connected')
+      // socket.emit('control', { data: 'a' });
+
+
+      const video = document.getElementById('video')
+      const canvas = document.getElementById('canvas')
+      const context = canvas.getContext('2d')
+      // request frame
+      const requestAnimationFrame = window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.msRequestAnimationFrame;
+      navigator.getUserMedia = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+      // video constraints
+      const constraints = {
+        video: true,
+      };
+      // turn on webcam
+      navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+        video.srcObject = stream;
+        video.play();
+      });
+      // load models
+      Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+        faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+        faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+        faceapi.nets.faceExpressionNet.loadFromUri('/models'),
+        faceapi.nets.ssdMobilenetv1.loadFromUri('/models')
+      ]).then(startVideo);
+
+      // Load SsdMobilenetv1
+      // .then(startVideo);
+
+      console.log(faceapi.nets)
+
+      function startVideo() {
+        console.log('start video')
+        // detect face every 100ms
+        setInterval(async () => {
+          const detectionsWithExpressions = await faceapi.detectAllFaces(video).withFaceExpressions()
+          // console.log(detectionsWithExpressions)
+          // draw detections
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(video, 0, 0, 720, 560);
+
+          if (detectionsWithExpressions.length > 0){
+            console.log(`Happy: ${detectionsWithExpressions[0].expressions.happy}`)
+            socket.emit('control', { data: detectionsWithExpressions[0] });
+        }
+          // draw box
+          detectionsWithExpressions.forEach((detection) => {
+            const box = detection.detection.box;
+            const drawBox = new faceapi.draw.DrawBox(box, {
+              label: 'face',
+            });
+            drawBox.draw(canvas);
+
+            // send data to server
+            // socket.emit('control', { data: box });
+            
+          });
+        }, 100);
+      }
+
+    });
+
+
+
+
+
+
+    // , async function () {
+    //   for (let i = 0; i < 200; i++) {
+    //     socket.emit('control', { data: 'a' });
+    //     // sleep 0.1 seconds
+    //     await new Promise(r => setTimeout(r, 100));
+    //   }
+    // });
+
+  </script>
+</body>
+
+</html>
