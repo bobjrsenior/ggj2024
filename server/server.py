@@ -34,9 +34,9 @@ def key_handler(key):
 
     if expressions['happy'] > 0.75:
         press('w')
-    elif expressions['sad'] > 0.75:
+    elif expressions['surprised'] > 0.75:
         press('s')
-    elif expressions['disgusted'] > 0.75:
+    elif expressions['sad'] > 0.75:
         press('t')
 
 if __name__ == '__main__':

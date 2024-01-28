@@ -26,7 +26,7 @@ func _ready():
 	GlobalVariables.time_elapsed_real = GlobalVariables.time_elapsed_real_default
 	GlobalVariables.time_elapsed_virtual = GlobalVariables.time_elapsed_virtual_default
 	GlobalVariables.shared_audio_player = shared_audio_player
-	start_text.text = "Press 'T' (Disgusted) to start"
+	start_text.text = "Press 'T' (Sad) to start"
 	timer_text.text = ""
 
 
@@ -34,7 +34,7 @@ func _ready():
 func _process(delta):
 	if GlobalVariables.game_lost:
 		lose_text.visible = true
-		lose_text.text = "You Lose, 'T' (Disgusted) to reload"
+		lose_text.text = "You Lose, 'T' (Sad) to reload"
 	elif GlobalVariables.game_started:
 		GlobalVariables.time_elapsed_real += delta
 		GlobalVariables.time_elapsed_virtual += delta * GlobalVariables.speed_ratio

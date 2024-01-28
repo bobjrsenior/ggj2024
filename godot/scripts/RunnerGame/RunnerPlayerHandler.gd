@@ -10,8 +10,10 @@ var degrees_to_rads = 0.01745329
 @export var neutral_sprite: Resource
 @export var happy_sprite: Resource
 @export var sad_sprite: Resource
+@export var surprised_sprite: Resource
 @export var happy_audio: AudioStreamOggVorbis
 @export var sad_audio: AudioStreamOggVorbis
+@export var surprised_audio: AudioStreamOggVorbis
 var audio_player: AudioStreamPlayer2D
 var audio_bus_index = AudioServer.get_bus_index("sfx")
 var pitch_effect = AudioServer.get_bus_effect(audio_bus_index, 0)
@@ -69,8 +71,8 @@ func _input(event):
 		scale.x = 0.5
 		scale.y = 0.5
 		position.y += 8
-		character_sprite.texture = sad_sprite
-		audio_player.stream = sad_audio
+		character_sprite.texture = surprised_sprite
+		audio_player.stream = surprised_audio
 		var playback_scale = 1 + (GlobalVariables.speed_ratio - GlobalVariables.speed_ratio_default)
 		audio_player.pitch_scale = playback_scale
 		pitch_effect.pitch_scale = 1 / playback_scale
