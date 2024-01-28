@@ -32,11 +32,11 @@ def key_handler(key):
     data = json.loads(key.replace("'", '"'))
     expressions = data['expressions']
 
-    if expressions['happy'] > 0.75:
+    if expressions['happy'] > 0.5:
         press('w')
-    elif expressions['surprised'] > 0.75:
+    elif expressions['surprised'] > 0.5:
         press('s')
-    elif expressions['sad'] > 0.75:
+    elif expressions['sad'] > 0.3:
         press('t')
 
 if __name__ == '__main__':
