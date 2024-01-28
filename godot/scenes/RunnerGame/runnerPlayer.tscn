@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxcqaurx5i31o"]
+
+[ext_resource type="Script" path="res://scripts/RunnerGame/ObjectSpawner.gd" id="1_buku3"]
+[ext_resource type="Texture2D" uid="uid://cngmkregrxu7p" path="res://art/neutral.png" id="1_kr0n8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sphku"]
+radius = 128.004
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_buku3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_kr0n8")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("CircleShape2D_sphku")

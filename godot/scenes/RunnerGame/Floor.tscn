@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://8xg8c2kenxpg"]
+
+[ext_resource type="Script" path="res://scripts/RunnerGame/ObstacleHandler.gd" id="1_pgq4o"]
+[ext_resource type="Texture2D" uid="uid://d0emfr347v10y" path="res://art/floor.png" id="1_uloxg"]
+
+[node name="Floor" type="Node2D"]
+script = ExtResource("1_pgq4o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_uloxg")

@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5v5lp7qt27ap"]
+
+[ext_resource type="Script" path="res://scripts/RunnerGame/ObjectSpawner.gd" id="1_qlpge"]
+[ext_resource type="PackedScene" uid="uid://8xg8c2kenxpg" path="res://scenes/RunnerGame/Floor.tscn" id="2_3gjxr"]
+[ext_resource type="PackedScene" uid="uid://rehec6ssp1bi" path="res://scenes/RunnerGame/FloorSpikeNew.tscn" id="3_2evcl"]
+[ext_resource type="PackedScene" uid="uid://d032vrpf1ornq" path="res://scenes/RunnerGame/TallSpikeNew.tscn" id="4_f026j"]
+[ext_resource type="PackedScene" uid="uid://c6u7n3k13aiwd" path="res://scenes/RunnerGame/Player.tscn" id="5_cno8f"]
+
+[node name="MainScene" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("timer_text", "start_text")]
+script = ExtResource("1_qlpge")
+floor_fab = ExtResource("2_3gjxr")
+floor_spike_fab = ExtResource("3_2evcl")
+tall_spike_fab = ExtResource("4_f026j")
+timer_text = NodePath("../Control/TimerText")
+player_fab = ExtResource("5_cno8f")
+start_text = NodePath("../Control/StartText")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="TimerText" type="RichTextLabel" parent="Control"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = -200.0
+offset_right = 100.0
+offset_bottom = -150.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 42
+text = "00:05"
+scroll_active = false
+
+[node name="StartText" type="RichTextLabel" parent="Control"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = -25.0
+offset_right = 300.0
+offset_bottom = 25.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 42
+text = "Press 'T' (Disgusted) to start"
+scroll_active = false

@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6u7n3k13aiwd"]
+
+[ext_resource type="Script" path="res://scripts/RunnerGame/RunnerPlayerHandler.gd" id="1_w084j"]
+[ext_resource type="Texture2D" uid="uid://cngmkregrxu7p" path="res://art/neutral.png" id="1_ygm7i"]
+[ext_resource type="Texture2D" uid="uid://dnfyepkirp5ai" path="res://art/happy.png" id="3_gw61a"]
+[ext_resource type="Texture2D" uid="uid://y2p3wyv0hws5" path="res://art/sad.png" id="4_cfma7"]
+[ext_resource type="AudioStream" uid="uid://cq4pgpc4qu1wd" path="res://audio/happy.ogg" id="5_xvrvb"]
+[ext_resource type="AudioStream" uid="uid://dpbskcd0x6g58" path="res://audio/sad.ogg" id="6_co617"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_upgth"]
+radius = 16.0
+
+[node name="Player" type="Node2D" node_paths=PackedStringArray("character_sprite", "audio_player")]
+script = ExtResource("1_w084j")
+character_sprite = NodePath("Sprite2D")
+neutral_sprite = ExtResource("1_ygm7i")
+happy_sprite = ExtResource("3_gw61a")
+sad_sprite = ExtResource("4_cfma7")
+happy_audio = ExtResource("5_xvrvb")
+sad_audio = ExtResource("6_co617")
+audio_player = NodePath("AudioListener2D/AudioStreamPlayer2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("1_ygm7i")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_upgth")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+current = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AudioListener2D"]
+bus = &"sfx"
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

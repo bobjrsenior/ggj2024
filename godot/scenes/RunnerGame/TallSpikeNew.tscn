@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://d032vrpf1ornq"]
+
+[ext_resource type="Script" path="res://scripts/RunnerGame/ObstacleHandler.gd" id="1_2pxix"]
+[ext_resource type="Texture2D" uid="uid://b0d4bqnk0sgw8" path="res://art/runnerSpikeVertical.png" id="1_fk8fh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6gq25"]
+size = Vector2(30, 254)
+
+[node name="TallSpikeNew" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_2pxix")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fk8fh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_6gq25")
